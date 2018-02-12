@@ -1140,7 +1140,393 @@ exports.requestEventAttention = (request, response) => {
 
 exports.financialDashboards = (request, response) => {
     let body = {};
-    const res = {};
+    const res = {
+        "financialDashboard": [
+            {
+                "product": {
+                    "savingAccount": {
+                        "productBase": {
+                            "branch": {
+                                "bank": {
+                                    "address": {
+                                        "country": {}
+                                    },
+                                    "country": {}
+                                },
+                                "region": {
+                                    "id": "MEXICO"
+                                }
+                            },
+                            "currency": {
+                                "code": "MXP"
+                            },
+                            "type": "AH",
+                            "balance": {
+                                "currentBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                },
+                                "grantedBalance": {
+                                    "currency": {}
+                                },
+                                "totalBalance": {
+                                    "currency": {}
+                                },
+                                "balance": {
+                                    "currency": {}
+                                },
+                                "pendingBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                },
+                                "cuttingBalance": {
+                                    "currency": {}
+                                },
+                                "balanceAtDate": {
+                                    "currency": {}
+                                },
+                                "availableBalance": {
+                                    "currency": {},
+                                    "amount": 1000000000
+                                },
+                                "retentionBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                }
+                            },
+                            "errorInfo": {},
+                            "status": "M"
+                        },
+                        "id": "VZT9MG6GX8DGTS602AGR4RAKM9FS9KZAHACFXM21AHCJP5QHNFFM2RAP756Q7A3EK4EQ387Z1PN70QSBVQWBE3KT64PAJFDGFRNCQR8",
+                        "accountNumber": "00740010001535205638",
+                        "indicatorJointAccount": "C",
+                        "isAditionalAccount": true,
+                        "region": {}
+                    }
+                }
+            },
+            {
+                "product": {
+                    "savingAccount": {
+                        "productBase": {
+                            "branch": {
+                                "bank": {
+                                    "address": {
+                                        "country": {}
+                                    },
+                                    "country": {}
+                                },
+                                "region": {
+                                    "id": "MEXICO"
+                                }
+                            },
+                            "currency": {
+                                "code": "MXP"
+                            },
+                            "type": "AH",
+                            "balance": {
+                                "currentBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                },
+                                "grantedBalance": {
+                                    "currency": {}
+                                },
+                                "totalBalance": {
+                                    "currency": {}
+                                },
+                                "balance": {
+                                    "currency": {}
+                                },
+                                "pendingBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                },
+                                "cuttingBalance": {
+                                    "currency": {}
+                                },
+                                "balanceAtDate": {
+                                    "currency": {}
+                                },
+                                "availableBalance": {
+                                    "currency": {},
+                                    "amount": 1000000000
+                                },
+                                "retentionBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                }
+                            },
+                            "shaftAccountIndicator": "O",
+                            "errorInfo": {},
+                            "status": "N"
+                        },
+                        "id": "VZT9MG6GX8DGTS602AGR4RAKMBBT7F1QXCHMC41VVZQW1PMWR5A42RAP756Q7A3EK4EQ387Z1PN70QSBVQWBE3KT64PAJFDGFRNCQR8",
+                        "accountNumber": "00743616001535133661",
+                        "indicatorJointAccount": "I",
+                        "isAditionalAccount": false,
+                        "region": {}
+                    }
+                }
+            },
+            {
+                "product": {
+                    "checkAccount": {
+                        "productBase": {
+                            "branch": {
+                                "bank": {
+                                    "address": {
+                                        "country": {}
+                                    },
+                                    "country": {}
+                                },
+                                "region": {
+                                    "id": "MEXICO"
+                                }
+                            },
+                            "currency": {
+                                "code": "MXP"
+                            },
+                            "type": "CH",
+                            "balance": {
+                                "currentBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                },
+                                "grantedBalance": {
+                                    "currency": {}
+                                },
+                                "totalBalance": {
+                                    "currency": {}
+                                },
+                                "balance": {
+                                    "currency": {}
+                                },
+                                "pendingBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                },
+                                "cuttingBalance": {
+                                    "currency": {}
+                                },
+                                "balanceAtDate": {
+                                    "currency": {}
+                                },
+                                "availableBalance": {
+                                    "currency": {},
+                                    "amount": 1000000000
+                                },
+                                "retentionBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                }
+                            },
+                            "errorInfo": {},
+                            "status": "N"
+                        },
+                        "id": "KTR8A3H37B1E1KDAVXV4HDF8WFWDZQNM8VA76JS2GF6W6JF18BRM2RAP756Q7A3EK4EQ387Z1PN70QSBVQWBE3KT64PAJFDGFRNCQR8",
+                        "accountNumber": "00740010000434752201",
+                        "indicatorJointAccount": "I",
+                        "isAditionalAccount": false,
+                        "region": {}
+                    }
+                }
+            },
+            {
+                "product": {
+                    "checkAccount": {
+                        "productBase": {
+                            "branch": {
+                                "bank": {
+                                    "address": {
+                                        "country": {}
+                                    },
+                                    "country": {}
+                                },
+                                "region": {
+                                    "id": "MEXICO"
+                                }
+                            },
+                            "currency": {
+                                "code": "MXP"
+                            },
+                            "type": "CH",
+                            "balance": {
+                                "currentBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                },
+                                "grantedBalance": {
+                                    "currency": {}
+                                },
+                                "totalBalance": {
+                                    "currency": {}
+                                },
+                                "balance": {
+                                    "currency": {}
+                                },
+                                "pendingBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                },
+                                "cuttingBalance": {
+                                    "currency": {}
+                                },
+                                "balanceAtDate": {
+                                    "currency": {}
+                                },
+                                "availableBalance": {
+                                    "currency": {},
+                                    "amount": 1000000000
+                                },
+                                "retentionBalance": {
+                                    "currency": {},
+                                    "amount": 0
+                                }
+                            },
+                            "errorInfo": {},
+                            "status": "N"
+                        },
+                        "id": "KTR8A3H37B1E1KDAVXV4HDF8WDD0E9R9YVKDS2HDQBCGNT5JES242RAP756Q7A3EK4EQ387Z1PN70QSBVQWBE3KT64PAJFDGFRNCQR8",
+                        "accountNumber": "00743616000434739167",
+                        "indicatorJointAccount": "I",
+                        "isAditionalAccount": false,
+                        "region": {}
+                    }
+                }
+            },
+            {
+                "product": {
+                    "creditCard": {
+                        "productBase": {
+                            "branch": {
+                                "bank": {
+                                    "address": {
+                                        "country": {}
+                                    },
+                                    "country": {}
+                                },
+                                "region": {
+                                    "id": "MEXICO"
+                                }
+                            },
+                            "currency": {},
+                            "type": "TC",
+                            "balance": {
+                                "currentBalance": {
+                                    "currency": {}
+                                },
+                                "grantedBalance": {
+                                    "currency": {}
+                                },
+                                "totalBalance": {
+                                    "currency": {}
+                                },
+                                "balance": {
+                                    "currency": {}
+                                },
+                                "pendingBalance": {
+                                    "currency": {}
+                                },
+                                "cuttingBalance": {
+                                    "currency": {},
+                                    "amount": 359213.06
+                                },
+                                "balanceAtDate": {
+                                    "currency": {}
+                                },
+                                "availableBalance": {
+                                    "currency": {},
+                                    "amount": 362815.34
+                                },
+                                "retentionBalance": {
+                                    "currency": {}
+                                }
+                            },
+                            "errorInfo": {},
+                            "status": "N"
+                        },
+                        "id": "Y692ZMT78JE6PFH3KCDDTX6C9B0GMF3ACGMF8R2SBRY8QW7XHMTNQ1XNZ45DY72ENTQ595ZC0NKDA",
+                        "cardNumber": "4772143006897553",
+                        "commission": {
+                            "amount": {
+                                "currency": {}
+                            }
+                        },
+                        "minimumPayment": {
+                            "currency": {},
+                            "amount": 18348.84
+                        }
+                    }
+                }
+            }
+        ],
+        "indicators": {
+            "agreementIndicator": "N",
+            "cedIndicator": "N",
+            "investmentFundsIndicator": "N",
+            "patrimonialIndicator": "N",
+            "creditIndicator": "N",
+            "mortgageCreditIndicator": "N"
+        },
+        "measures": {
+            "savingAccountsTotalNationalMoney": 2000000000,
+            "savingAccountsTotalDollar": 0,
+            "savingAccountsTotalEuro": 0,
+            "checkAccountsTotalNationalMoney": 2000000000,
+            "checkAccountsTotalDollar": 0,
+            "checkAccountsTotalEuro": 0,
+            "ccAccountsTotalNationalMoney": 0,
+            "ccAccountsTotalDollar": 0,
+            "ccAccountsTotalEuro": 0,
+            "libretonAccountsTotalNationalMoney": 0,
+            "libretonAccountsTotalDollar": 0,
+            "libretonAccountsTotalEuro": 0,
+            "investmentsTotalNationalMoney": 0,
+            "investmentsTotalDollar": 0,
+            "investmentsTotalEuro": 0,
+            "creditCardsTotal": 362815.34,
+            "prepaidCardstotalNationalMoney": 0,
+            "prepaidCardstotalDollar": 0,
+            "prepaidCardstotalEuro": 0,
+            "agencyAccountsTotal": 0,
+            "movilAccountsTotalNationalMoney": 0,
+            "movilAccountsTotalDollar": 0,
+            "movilAccountsTotalEuro": 0,
+            "payRollTotalNationalMoney": 0,
+            "payRollTotalDollar": 0,
+            "payRollTotalEuro": 0
+        },
+        "heldAmount": {
+            "savingAccountsTotalNationalMoney": 0,
+            "savingAccountsTotalDollar": 0,
+            "savingAccountsTotalEuro": 0,
+            "checkAccountsTotalNationalMoney": 0,
+            "checkAccountsTotalDollar": 0,
+            "checkAccountsTotalEuro": 0,
+            "ccAccountsTotalNationalMoney": 0,
+            "ccAccountsTotalDollar": 0,
+            "ccAccountsTotalEuro": 0,
+            "libretonAccountsTotalNationalMoney": 0,
+            "libretonAccountsTotalDollar": 0,
+            "libretonAccountsTotalEuro": 0,
+            "investmentsTotalNationalMoney": 0,
+            "investmentsTotalDollar": 0,
+            "investmentsTotalEuro": 0,
+            "creditCardsTotal": 0,
+            "prepaidCardstotalNationalMoney": 0,
+            "prepaidCardstotalDollar": 0,
+            "prepaidCardstotalEuro": 0,
+            "agencyAccountsTotal": 0,
+            "movilAccountsTotalNationalMoney": 0,
+            "movilAccountsTotalDollar": 0,
+            "movilAccountsTotalEuro": 0,
+            "payRollTotalNationalMoney": 0,
+            "payRollTotalDollar": 0,
+            "payRollTotalEuro": 0
+        },
+        "pagination": {}
+    };
     response.statusCode = 200;
     response.setHeader('Content-Type', 'application/json');
     response.write(JSON.stringify(res));
