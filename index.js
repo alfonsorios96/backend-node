@@ -20,7 +20,7 @@ app.post('/QSRV_A02/TechArchitecture/mx/grantingTicket/V02', services.gtZonaPubl
 app.post('/QSRV_A02/TechArchitecture/mx/grantingTicket/V02', services.gtZonaPrivada);
 app.post('/QSRV_A02/MBFSTA00/V01', services.mbfsta00);
 app.post('/QSRV_A02/MBFSTA01/V01', services.mbfsta01);
-app.post('/QSRV_A02/MBFSTA02/V01', services.mbfsta02);
+app.post('/SRVS_A02/MBFSTA02/V01', services.mbfsta02);
 app.post('/QSRV_A02/MBFSTA03/V01', services.mbfsta03);
 app.post('/QSRV_A02/MBFSTA04/V01', services.mbfsta04);
 
