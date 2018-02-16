@@ -1,26 +1,41 @@
+let prepareResponse = (response, headers = new Map(), status = 200) => {
+    response.statusCode = status;
+    response.setHeader('Content-Type', 'application/json');
+    for (let [key, value] of headers) {
+        response.setHeader(key, value);
+    }
+    return response;
+};
+
+let getTsec = () => {
+    return 'eJxt1EmPo1YUBeC/0uqt1cVosKXqkphngwEzbSIePDA8JgNm+vWpSEmURfbn3rM5+j79CWY/tPz3T5DhFKAJ8IvOyesvGifPvwDBML8uRVbAAmevRJb//BHAcar67vdP4g/859enUA1POIrpnH69gMPTlh8pxBvf7/dImqwopZLCSQ4eJaR+GQ7zvVjs9Xq5kHyLIT1+tqGYV3no2x2JlN5/NJmPX+YrI3KV5g7t25DdsoaN7rkeoUdasxiNzef2Ip00dXUmD4ynA/iJUNyEoGQpH2XeYXdlVapCRBMmeuLPm8FgAxXYSqdzwS0tT7eKqSwE8aCTY8x/hjEmEaoJ5kI+LErh5uAhqHS8ylIPoybYG/eox0ir3dl2eWViHcZ8GofDCpd9C023ubz9uKsU0ndl5aVAZbWkzVIXPyXAJNrSuk8NuNSbR54q6/5wuEhtjvEI3oS1tG5Aze+5vHAiQ1Vtb9PeK+qT4SFzVbljyFaN/nUp2RM9mlVPJycOo+sedJzcMWLjm+p4P1Gy7Zq+0EgaMY7he736Yhg68QPBk7LtLtQOY3e8M1UFOHWs/qB4bOtC4bjf00QYNswp+hHI9OHzdid1xSW1tKfu33Ql7T0cHrM61cKu6tx0t/J1NQPmSfFIZN2bNbV7nzxKp+1yrX7R8e4xnEvhteO2WVQXSi4RoGivL5LDbqag2o5pdeaQznpjM7jCa8kok7poyYRxzpfR6bgrtJY9SZvywUedQpOEhsE+c4J3eGd4WlENIFMOyDb3chPZc/7dJSfj3WVdf8Jv2ztUAzVjoVilfnivQBfrTKlVVaIGSxFgffWA67GbYnE3+musBJYxOzSqopL3Bh3TIALSiEfh2LlEPGziFne6ExBIuMq8MrzUBdsUCaSy17JG1O7+ZrYDmymbhbS29euFfwD8MZOoGlei9Eg9UaMggd8P2MHfKhR0It7HueJlxOAUj5EPoyQdrvFlPgviAjdqpg50c0BOb3SIHfxiylltzUVmL0o4qEBdj3EaEHij76LvmRcyVXbk4U0MjEN0RDx/du+6iUzZraBC7NA8x5bsixGPrrp/6CI8i3ybvG8rjEHvPY1aOFmEXBOL0t3MB4fOj8a3jC6SCDQ2wgZSPAnRkyXVnAcq8huS5xk6UGDL0u2p8MJ3aLyaiBWSjCvJwT9WVrDXLgu3eXj1Tb1LbENSTiqctCGFzLrJiJ3dNqGm6/VO5pma6zZoL9EZoPv6Ett3SSDgoVpoH/mt/P2J/QeWv5Ex4M41VTp9NRMAy/yRw48Wbh9ZVYzpx/yt2EfWpBnxz+m/8U+py8Z9mL/V4pqyH6v52X6JkgdziAm8gDmG4J2dNM+rrvzE/i/8if2F5NefZAK9sA==';
+};
+
+let validateTsec = (request) => {
+    let tsecRequest = request.get('tsec');
+    if (tsecRequest === getTsec()) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+const noTsecResponse = {
+    "version": 1,
+    "severity": "FATAL",
+    "http-status": 500,
+    "error-code": "98",
+    "error-message": "Se ha producido un error al conectar con el servicio de cifrado",
+    "consumer-request-id": "ac2999ce-64f0-4eef-8af0-d365de6cad12",
+    "system-error-code": "serviceUnavailable",
+    "system-error-description": "Se ha producido un error al conectar con el servicio de cifrado"
+};
+
+
 /*
 * @description: Gets public tsec
 * */
 exports.gtZonaPublica = (request, response) => {
-    let body = {
-        "authentication": {
-            "userID": "ZM10062",
-            "consumerID": "10000062",
-            "authenticationType": "04",
-            "authenticationData": [{
-                "idAuthenticationData": "password",
-                "authenticationData": [
-                    "NTlkODAzOTI2NzIz"
-                ]
-            }]
-        },
-        "backendUserRequest": {
-            "userId": "",
-            "accessCode": "",
-            "dialogId": ""
-        }
-    };
-
     const res = {
         "authenticationResponse": {
             "authenticationState": "OK",
@@ -28,9 +43,10 @@ exports.gtZonaPublica = (request, response) => {
         }
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.setHeader('tsec', '000000000000000000');
+    let headers = new Map();
+    headers.set('tsec', getTsec());
+
+    response = prepareResponse(response, headers);
     response.write(JSON.stringify(res));
     response.end();
 };
@@ -40,33 +56,14 @@ exports.gtZonaPublica = (request, response) => {
 * */
 
 exports.gtZonaPrivada = (request, response) => {
-    let body = {
-        "authentication": {
-            "userID": "5540890150",
-            "consumerID": "10000068",
-            "authenticationType": "02",
-            "authenticationData": [{
-                "idAuthenticationData": "password",
-                "authenticationData": [
-                    "147258"
-                ]
-            }]
-        },
-        "backendUserRequest": {
-            "userId": "",
-            "accessCode": "5540890150",
-            "dialogId": ""
-        }
-    };
     const res = {
         "authenticationResponse": {
             "authenticationState": "OK",
             "authenticationData": []
         }
     };
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.setHeader('tsec', '000000000000000000');
+
+    response = prepareResponse(response);
     response.write(JSON.stringify(res));
     response.end();
 };
@@ -76,25 +73,10 @@ exports.gtZonaPrivada = (request, response) => {
 * */
 
 exports.listCarInsurancePolicies = (request, response) => {
-    let body = {
-        "header": {
-            "aapType": "dasda4544",
-            "dateRequest": "2016-08-04 13:01:50:000000",
-            "channel": "1",
-            "subChannel": "2",
-            "branchOffice": "CONFIN",
-            "managementUnit": "sucursal",
-            "user": "usuario",
-            "idSession": "3232-3232",
-            "idRequest": "1212-121212-12121-212",
-            "dateConsumerInvocation": "06-08-2016 00:00:00:000000"
-        },
-        "listCarInsurancePolicy": [{
-            "certificate": "1",
-            "numberPolicy": "855621000Y"
-        }]
-    };
-    const res = {
+    const POLICY_FLEET = '716B01009L';
+    const POLICY_NOT_FLEET = '855621000Y';
+
+    const resFormNonFleet = {
         "carInsurancePolicy": [{
             "account": {
                 "accountNumber": "***********20196",
@@ -171,10 +153,798 @@ exports.listCarInsurancePolicies = (request, response) => {
             }
         }]
     };
+    const resFormFleet = {
+        "carInsurancePolicy": [
+            {
+                "account": {
+                    "accountNumber": "***********60017",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "CUENTA DE CHEQUE"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "LIMITADA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {
+                        "email": "CHIMASAPARRAL@GMAIL.COM"
+                    },
+                    "person": {
+                        "name": "CHIHUAHUA MADERERA, SA DE CV"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "CHIHUAHUA MADERERA, SA DE CV"
+                    }
+                },
+                "certificate": "2",
+                "numberPolicy": "716B01009L",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "161",
+                                "name": "TOYOTA"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "3",
+                                "name": "CAMRY"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2007"
+                            }
+                        },
+                        "plates": "SLB6270",
+                        "serialNumber": "4T1BE46K77U658603",
+                        "engineNumber": "2AZ8764935",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "1",
+                                "name": " AUT AA EE CD BA 4CIL 4PT"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "8516351",
+                "status": "ACT",
+                "validityPeriod": {
+                    "startDate": "2018-01-04T00:00:00.000-0600",
+                    "endDate": "2017-01-04T00:00:00.000-0600"
+                }
+            }
+        ]
+    };
+    const resCellphone = {
+        "carInsurancePolicy": [
+            {
+                "account": {
+                    "accountNumber": "***************79373",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "CUENTA DE CHEQUE"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {}
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {},
+                    "person": {
+                        "name": "JACOREY3",
+                        "lastName": "DEVINCENT",
+                        "mothersLastName": "CASTENANOS"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "JACOREY3",
+                        "lastName": "DEVINCENT",
+                        "mothersLastName": "CASTENANOS"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "8967012013",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "183",
+                                "name": "BAJAJ"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "1",
+                                "name": "APELLIDO"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2016"
+                            }
+                        },
+                        "plates": "NA",
+                        "serialNumber": "NA",
+                        "engineNumber": "NA",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "1"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "9222834",
+                "status": "ACT",
+                "validityPeriod": {
+                    "startDate": "2017-09-09T00:00:00.000-0500",
+                    "endDate": "2016-09-09T00:00:00.000-0500"
+                }
+            },
+            {
+                "account": {
+                    "accountNumber": "***************79374",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "CUENTA DE CHEQUE"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {}
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {},
+                    "person": {
+                        "name": "JACOREY4",
+                        "lastName": "DEVINCENT",
+                        "mothersLastName": "CASTENANOS"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "JACOREY4",
+                        "lastName": "DEVINCENT",
+                        "mothersLastName": "CASTENANOS"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "8967012014",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "183",
+                                "name": "BAJAJ"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "1",
+                                "name": "APELLIDO"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2016"
+                            }
+                        },
+                        "plates": "NA",
+                        "serialNumber": "NA",
+                        "engineNumber": "NA",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "1"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "9222835",
+                "status": "ACT",
+                "validityPeriod": {
+                    "startDate": "2017-09-09T00:00:00.000-0500",
+                    "endDate": "2016-09-09T00:00:00.000-0500"
+                }
+            },
+            {
+                "account": {
+                    "accountNumber": "***********11111",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "TARJETA DE CREDITO"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "OBLIGATORIA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {
+                        "email": "dfasfa@sadffsa.com"
+                    },
+                    "person": {
+                        "name": "ASDGADGAS",
+                        "lastName": "FDSADFADSF"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "ASDGADGAS",
+                        "lastName": "FDSADFADSF"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "827W09001QERR",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "145",
+                                "name": "NISSAN"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "4",
+                                "name": "370Z"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2016"
+                            }
+                        },
+                        "serialNumber": "DSAFASDFASD",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "4"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "12262171",
+                "status": "000",
+                "validityPeriod": {
+                    "startDate": "2018-02-16T00:00:00.000-0600",
+                    "endDate": "2017-02-16T00:00:00.000-0600"
+                }
+            },
+            {
+                "account": {
+                    "accountNumber": "***********11111",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "TARJETA DE CREDITO"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "OBLIGATORIA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {
+                        "email": "dfasfa@sadffsa.com"
+                    },
+                    "person": {
+                        "name": "ASDGADGAS",
+                        "lastName": "FDSADFADSF"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "ASDGADGAS",
+                        "lastName": "FDSADFADSF"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "827W09001Q",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "145",
+                                "name": "NISSAN"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "4",
+                                "name": "370Z"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2016"
+                            }
+                        },
+                        "serialNumber": "DSAFASDFASD",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "4"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "12672150",
+                "status": "ACT",
+                "validityPeriod": {
+                    "startDate": "2017-06-01T00:00:00.000-0500",
+                    "endDate": "2016-06-01T00:00:00.000-0500"
+                }
+            },
+            {
+                "account": {
+                    "accountNumber": "***********11111",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "TARJETA DE CREDITO"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "OBLIGATORIA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {
+                        "email": "test@test.com"
+                    },
+                    "person": {
+                        "name": "RODRIGO",
+                        "lastName": "MAKERS",
+                        "mothersLastName": "RÍA"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "RODRIGO",
+                        "lastName": "MAKERS",
+                        "mothersLastName": "RÍA"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "837W09000N",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "3",
+                                "name": "AUDI"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "23",
+                                "name": "TT"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2007"
+                            }
+                        },
+                        "serialNumber": "14123412513451342",
+                        "engineNumber": "832468732328",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "5"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "12406432",
+                "status": "ACT",
+                "validityPeriod": {
+                    "startDate": "2018-03-14T00:00:00.000-0600",
+                    "endDate": "2017-03-14T00:00:00.000-0600"
+                }
+            },
+            {
+                "account": {
+                    "accountNumber": "***********11111",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "TARJETA DE CREDITO"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "OBLIGATORIA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {
+                        "email": "a@ids.com"
+                    },
+                    "person": {
+                        "name": "TEST",
+                        "lastName": "TEST",
+                        "mothersLastName": "TEST"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "TEST",
+                        "lastName": "TEST",
+                        "mothersLastName": "TEST"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "837W09000E",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "145",
+                                "name": "NISSAN"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "17",
+                                "name": "MAXIMA"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2015"
+                            }
+                        },
+                        "serialNumber": "29482398472398479",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "2"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "12273724",
+                "status": "ACT",
+                "validityPeriod": {
+                    "startDate": "2018-03-13T00:00:00.000-0600",
+                    "endDate": "2017-03-13T00:00:00.000-0600"
+                }
+            }
+        ]
+    };
+    const errorWithoutCertificate = {
+        "messageInfo": {
+            "messageId": "20207",
+            "message": "08c1a835-8316-472a-ac07-6ded0d9b4496",
+            "traceId": "POLIZA 716B01009L COLECTIVA - FALTA INGRESAR EL CERTIFICADO",
+            "extraInfo": "WARNING-SEGUROS-BANCOMER"
+        }
+    };
+    const resAccounts = {
+        "carInsurancePolicy": [
+            {
+                "account": {
+                    "accountNumber": "***************33661",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "CUENTA DE CHEQUE"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "AMPLIA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {
+                        "email": "jose@gmail.com"
+                    },
+                    "person": {
+                        "name": "LUCERO",
+                        "lastName": "RAMOS",
+                        "mothersLastName": "VAZQUEZ"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "LUCERO",
+                        "lastName": "RAMOS",
+                        "mothersLastName": "VAZQUEZ"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "837C912005",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "159",
+                                "name": "SUBARU"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "4",
+                                "name": "OUTBACK"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2010"
+                            }
+                        },
+                        "plates": "AFG454",
+                        "serialNumber": "6666666",
+                        "engineNumber": "22222222",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "3",
+                                "name": "TICO SUV 6 CIL 5 P 5 OCUP"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "12269083",
+                "status": "000",
+                "validityPeriod": {
+                    "startDate": "2017-10-15T00:00:00.000-0500",
+                    "endDate": "2016-10-15T00:00:00.000-0500"
+                }
+            },
+            {
+                "account": {
+                    "accountNumber": "***************33661",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "CUENTA DE CHEQUE"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "AMPLIA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {},
+                    "person": {
+                        "name": "JOHN DOE1",
+                        "lastName": "JOHNSON1",
+                        "mothersLastName": "WILLIAMS1"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "JOHN DOE1",
+                        "lastName": "JOHNSON1",
+                        "mothersLastName": "WILLIAMS1"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "83707Y0001",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "145",
+                                "name": "NISSAN"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "32",
+                                "name": "TIIDA"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2011"
+                            }
+                        },
+                        "plates": "218PBS1",
+                        "serialNumber": "218PBSEJ117032017",
+                        "engineNumber": "218PBSEJ117032017",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "2",
+                                "name": "AN 4 CIL 4P 5 OCUP - 2011"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "12407509",
+                "status": "000",
+                "validityPeriod": {
+                    "startDate": "2018-03-17T00:00:00.000-0600",
+                    "endDate": "2017-03-17T00:00:00.000-0600"
+                }
+            },
+            {
+                "account": {
+                    "accountNumber": "***************33661",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "CUENTA DE CHEQUE"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "AMPLIA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {},
+                    "person": {
+                        "name": "JOHN DOE10",
+                        "lastName": "JOHNSON10",
+                        "mothersLastName": "WILLIAMS10"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "JOHN DOE10",
+                        "lastName": "JOHNSON10",
+                        "mothersLastName": "WILLIAMS10"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "83707Y0010",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "14",
+                                "name": "FORD"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "32",
+                                "name": "FIESTA"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2013"
+                            }
+                        },
+                        "plates": "310AAB1",
+                        "serialNumber": "310AABEJ1017032017",
+                        "engineNumber": "310AABEJ1017032017",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "9",
+                                "name": "CK 4 CIL 5P 5 OCUP - 2013"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "12407518",
+                "status": "000",
+                "validityPeriod": {
+                    "startDate": "2018-03-17T00:00:00.000-0600",
+                    "endDate": "2017-03-17T00:00:00.000-0600"
+                }
+            }
+        ]
+    };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    let payload = request.body;
+    response = prepareResponse(response);
+
+
+    if (validateTsec(request)) {
+        if (payload.hasOwnProperty('listAccount') && payload.listAccount.length > 0) {
+            response.write(JSON.stringify(resAccounts));
+        } else if (payload.customer.contactData.cellphone.telephoneNumber.length > 0) {
+            response.write(JSON.stringify(resCellphone));
+        } else if (payload.listCarInsurancePolicy[0].numberPolicy === POLICY_FLEET) {
+            if (payload.listCarInsurancePolicy[0].certificate === "2") {
+                response.write(JSON.stringify(resFormFleet));
+            } else {
+                response.write(JSON.stringify(errorWithoutCertificate));
+            }
+        } else if (payload.listCarInsurancePolicy[0].numberPolicy === POLICY_NOT_FLEET) {
+            response.write(JSON.stringify(resFormNonFleet));
+        } else {
+            // TODO
+        }
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
     response.end();
 };
 
@@ -183,25 +953,6 @@ exports.listCarInsurancePolicies = (request, response) => {
 * */
 
 exports.listCoverages = (request, response) => {
-    let body = {
-        "header": {
-            "aapType": "dasda4544",
-            "dateRequest": "2016-08-06 00:00:00:000000",
-            "channel": "1",
-            "subChannel": "2",
-            "branchOffice": "CONFIN",
-            "managementUnit": "sucursal",
-            "user": "usuario",
-            "idSession": "3232-3232",
-            "idRequest": "1212-121212-12121-212",
-            "dateConsumerInvocation": "2016-08-06 00:00:00:000000"
-        },
-        "carInsurancePolicy": {
-            "certificate": "1",
-            "numberPolicy": "855621000Y",
-            "idPolicy": ""
-        }
-    };
     const res = {
         "coverages": [{
             "catalogItemBase": {
@@ -611,9 +1362,15 @@ exports.listCoverages = (request, response) => {
         ]
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -622,29 +1379,6 @@ exports.listCoverages = (request, response) => {
 * */
 
 exports.updateInfo = (request, response) => {
-    let body = {
-        "header": {
-            "aapType": "dasda4544",
-            "dateRequest": "2016-08-06 00:00:00:000000",
-            "channel": "1",
-            "subChannel": "2",
-            "branchOffice": "CONFIN",
-            "managementUnit": "sucursal",
-            "user": "usuario",
-            "idSession": "3232-3232",
-            "idRequest": "1212-121212-12121-212",
-            "dateConsumerInvocation": "2016-08-06 00:00:00:000000"
-        },
-        "listCarInsurancePolicy": [{
-            "certificate": "1",
-            "numberPolicy": "8176002OZF"
-        },
-            {
-                "certificate": "1",
-                "numberPolicy": "855621000Y"
-            }
-        ]
-    };
     const res = {
         "listCarInsurancePolicy": [{
             "coverage": {
@@ -675,9 +1409,15 @@ exports.updateInfo = (request, response) => {
         ]
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -686,63 +1426,6 @@ exports.updateInfo = (request, response) => {
 * */
 
 exports.mbfsta00 = (request, response) => {
-    let body = {
-        "listInsurance": [{
-            "insurancenumber": "855621000Y",
-            "insuranceid": "6815863",
-            "certificate": "9843",
-            "status": "ACT",
-            "startdatevalidity": "2016-05-16",
-            "enddatevalidity": "2017-05-17",
-            "accounttype": "Tarjeta de Credito",
-            "accountnumber": "4912838009720196",
-            "subsidiary": "SEGUROS BANCOMER",
-            "isfleet": "0",
-            "isinternal": "0",
-            "isvip": "0",
-
-            "vehicle": [{
-                "plates": "CAXD688",
-                "model": "2016",
-
-                "brand": [{
-                    "id": "0001",
-                    "name": "Nissan"
-                }],
-
-                "subbrand": [{
-                    "id": "0011",
-                    "name": "Sentra"
-                }],
-
-                "version": [{
-                    "id": "0111",
-                    "name": "Super equipado"
-                }]
-            }],
-
-            "isowner": "1",
-
-            "driver": [{
-                "name": "Ricardo Yael",
-                "lastname": "Valdez",
-                "secondlastname": "Altamirano",
-                "email": "ricardo.valdez@sngular.team",
-                "cellphone": "5545146779",
-                "rfc": "VAAR911026M78"
-            }]
-
-        }],
-        "listDevice": [{
-            "model": "Galaxy s7 edge",
-            "manufacturer": "Samsung",
-            "so": "Android",
-            "version": "6.0",
-            "carrier": "Telcel",
-            "serie": "xasass12"
-        }],
-        "versionApp": "v1.0.6"
-    };
     const res = {
         "activationlist": [{
             "activationcode": "1VRNS17WK",
@@ -752,9 +1435,15 @@ exports.mbfsta00 = (request, response) => {
         }]
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -763,60 +1452,21 @@ exports.mbfsta00 = (request, response) => {
 * */
 
 exports.mbfsta01 = (request, response) => {
-    let body = {
-        "insurancenumber": "855621000Y",
-        "certificate": "9843",
-        "activationid": "58dc4d0b0cf2a48363487ae6",
-        "serie": "xasass12",
-        "driver": [{
-            "name": "Ricardo Yael",
-            "lastname": "Valdez",
-            "secondlastname": "Altamirano",
-            "email": "ricardo.valdez@sngular.team",
-            "cellphone": "5545146779",
-            "rfc": "VAAR911026",
-            "isintern": "0"
-        }],
-        "coordinates": [{
-            "latitude": "19.426793",
-            "longitude": "-99.166816"
-        }],
-        "isaccident": "0",
-        "coveragelist": [{
-            "internalcode": "002",
-            "description": "Cristales",
-            "amountinsured": "60000",
-            "deductible": "5000",
-            "insurancepremium": [{
-                "amount": "50000",
-                "codebadge": "0002"
-            }],
-            "servicelist": [{
-                "internalcode": "002",
-                "description": "Critales"
-            }]
-        }],
-        "address": [{
-            "country": "MX",
-            "state": "DF",
-            "neighborhood": "Tepalcates",
-            "city": "DF",
-            "town": "IZTAPALAPA",
-            "zipcode": "09220",
-            "street": "CENTRAL",
-            "outdoornumber": "16"
-        }],
-        "accidentdate": "2017-02-23"
-    };
     const res = {
         "reportid": "514501894555",
         "reportkey": "490288218",
         "accidentnumber": "514501894555"
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -825,31 +1475,19 @@ exports.mbfsta01 = (request, response) => {
 * */
 
 exports.mbfsta02 = (request, response) => {
-    let body = {
-        "activationcode": "1VRNS02SS",
-        "driver": [{
-            "name": "CLAU",
-            "lastname": "LOZA",
-            "secondlastname": "LOPEZ",
-            "cellphone": "55555555555",
-            "email": ""
-        }],
-        "device": [{
-            "serie": "",
-            "version": "7.1.1",
-            "model": "Moto X Play",
-            "manufacturer": "motorola",
-            "carrier": "AT&T",
-            "so": "Android"
-        }]
-    };
     const res = {
         "result": "OK"
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -858,7 +1496,6 @@ exports.mbfsta02 = (request, response) => {
 * */
 
 exports.mbfsta03 = (request, response) => {
-    let body = {};
     const res = {
         "listgeneralinformation": [{
             "theme": [{
@@ -900,9 +1537,15 @@ exports.mbfsta03 = (request, response) => {
         }]
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -911,21 +1554,6 @@ exports.mbfsta03 = (request, response) => {
 * */
 
 exports.mbfsta04 = (request, response) => {
-    let body = {
-        "insurancelist": [{
-            "insurancenumber": "855621000Y",
-            "certificate": "9843",
-            "activationcode": "1VRNS02SS",
-            "model": "2016",
-            "activationid": "5a4511130cf2b2327adabe7f"
-        }],
-        "serie": "xasass12",
-        "type": "0",
-        "paginated": [{
-            "size": "10",
-            "index": "0"
-        }]
-    };
     const res = {
         "campo_1_insurancelist": [{
             "certificate": "9843",
@@ -979,9 +1607,15 @@ exports.mbfsta04 = (request, response) => {
         }]
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -990,147 +1624,21 @@ exports.mbfsta04 = (request, response) => {
 * */
 
 exports.requestEventAttention = (request, response) => {
-    let body = {
-        "header":
-            {
-                "aapType": "dasda4544",
-                "dateRequest": "2016-08-06 00:00:00:000000",
-                "channel": "1",
-                "subChannel": "2",
-                "branchOffice": "CONFIN",
-                "managementUnit": "sucursal",
-                "user": "usuario",
-                "idSession": "3232-3232",
-                "idRequest": "1212-121212-12121-212",
-                "dateConsumerInvocation": "2016-08-06 00:00:00:000000"
-            },
-        "carInsurancePolicy":
-            {
-                "numberPolicy": "8176002OZF",
-                "subsidary": "Seguros Bancomer",
-                "vehicle":
-                    {
-                        "vehicle":
-                            {
-                                "description": "",
-                                "carModel":
-                                    {
-                                        "catalogItemBase":
-                                            {
-                                                "name": "2008"
-                                            }
-                                    },
-                                "brandCar":
-                                    {
-                                        "catalogItemBase":
-                                            {
-                                                "name": "NISSAN"
-                                            }
-                                    },
-                                "plates": "YZM4436",
-                                "subBrand":
-                                    {
-                                        "catalogItemBase":
-                                            {
-                                                "name": "TIIDA"
-                                            }
-                                    }
-                            }
-                    },
-                "certificate": "1",
-                "event":
-                    {
-                        "eventType":
-                            {
-                                "catalogItemBase":
-                                    {
-                                        "name": "asistencia"
-                                    }
-                            },
-                        "ubication":
-                            {
-                                "streetName": "303 Calzada General Mariano Escobedo",
-                                "outdoorNumber": "",
-                                "zipCode": "11520",
-                                "suburb":
-                                    {
-                                        "state":
-                                            {
-                                                "catalogItemBase":
-                                                    {
-                                                        "name": "Ciudad de México"
-                                                    }
-                                            },
-                                        "city":
-                                            {
-                                                "catalogItemBase":
-                                                    {
-                                                        "name": "Ciudad de México"
-                                                    }
-                                            },
-                                        "neighborhood":
-                                            {
-                                                "catalogItemBase":
-                                                    {
-                                                        "name": "Granada"
-                                                    }
-                                            },
-                                        "county":
-                                            {
-                                                "catalogItemBase":
-                                                    {
-                                                        "name": "Granada"
-                                                    }
-                                            }
-                                    }
-                            },
-                        "eventData":
-                            {
-                                "assistance":
-                                    {
-                                        "supplies": [
-                                            "Cerrajeria"
-                                        ]
-                                    }
-                            }
-                    },
-                "owner":
-                    {
-                        "isVIP": "false",
-                        "isInternal": "false"
-                    },
-                "driver":
-                    {
-                        "person":
-                            {
-                                "lastName": "ALONSO",
-                                "name": "JUAN MANUEL",
-                                "mothersLastName": "BUSTAMANTE"
-                            },
-                        "contactData":
-                            {
-                                "cellphone":
-                                    {
-                                        "telephoneNumber": "5572721213"
-                                    }
-                            }
-                    }
-            },
-        "coordinate":
-            {
-                "longitude": "-99.1840502992272",
-                "latitude": "19.4414392745851"
-            }
-    };
     const res = {
         "replyStatus": "1",
         "message": "",
         "numberRequest": "10802"
     };
 
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -1139,7 +1647,6 @@ exports.requestEventAttention = (request, response) => {
 * */
 
 exports.financialDashboards = (request, response) => {
-    let body = {};
     const res = {
         "financialDashboard": [
             {
@@ -1527,8 +2034,15 @@ exports.financialDashboards = (request, response) => {
         },
         "pagination": {}
     };
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify(res));
+
+    response = prepareResponse(response);
+
+    if (validateTsec(request)) {
+        response.write(JSON.stringify(res));
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
