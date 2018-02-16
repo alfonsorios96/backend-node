@@ -2161,7 +2161,7 @@ exports.financialDashboards = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
+    if (validateTsec(request, "private")) {
         response.write(JSON.stringify(res));
     } else {
         response.statusCode = 500;
