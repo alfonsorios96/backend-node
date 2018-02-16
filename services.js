@@ -1,3 +1,7 @@
+"use strict";
+
+const faker = require('faker');
+
 let prepareResponse = (response, headers = new Map(), status = 200) => {
     response.statusCode = status;
     response.setHeader('Content-Type', 'application/json');
@@ -11,13 +15,119 @@ let getTsec = () => {
     return 'eJxt1EmPo1YUBeC/0uqt1cVosKXqkphngwEzbSIePDA8JgNm+vWpSEmURfbn3rM5+j79CWY/tPz3T5DhFKAJ8IvOyesvGifPvwDBML8uRVbAAmevRJb//BHAcar67vdP4g/859enUA1POIrpnH69gMPTlh8pxBvf7/dImqwopZLCSQ4eJaR+GQ7zvVjs9Xq5kHyLIT1+tqGYV3no2x2JlN5/NJmPX+YrI3KV5g7t25DdsoaN7rkeoUdasxiNzef2Ip00dXUmD4ynA/iJUNyEoGQpH2XeYXdlVapCRBMmeuLPm8FgAxXYSqdzwS0tT7eKqSwE8aCTY8x/hjEmEaoJ5kI+LErh5uAhqHS8ylIPoybYG/eox0ir3dl2eWViHcZ8GofDCpd9C023ubz9uKsU0ndl5aVAZbWkzVIXPyXAJNrSuk8NuNSbR54q6/5wuEhtjvEI3oS1tG5Aze+5vHAiQ1Vtb9PeK+qT4SFzVbljyFaN/nUp2RM9mlVPJycOo+sedJzcMWLjm+p4P1Gy7Zq+0EgaMY7he736Yhg68QPBk7LtLtQOY3e8M1UFOHWs/qB4bOtC4bjf00QYNswp+hHI9OHzdid1xSW1tKfu33Ql7T0cHrM61cKu6tx0t/J1NQPmSfFIZN2bNbV7nzxKp+1yrX7R8e4xnEvhteO2WVQXSi4RoGivL5LDbqag2o5pdeaQznpjM7jCa8kok7poyYRxzpfR6bgrtJY9SZvywUedQpOEhsE+c4J3eGd4WlENIFMOyDb3chPZc/7dJSfj3WVdf8Jv2ztUAzVjoVilfnivQBfrTKlVVaIGSxFgffWA67GbYnE3+musBJYxOzSqopL3Bh3TIALSiEfh2LlEPGziFne6ExBIuMq8MrzUBdsUCaSy17JG1O7+ZrYDmymbhbS29euFfwD8MZOoGlei9Eg9UaMggd8P2MHfKhR0It7HueJlxOAUj5EPoyQdrvFlPgviAjdqpg50c0BOb3SIHfxiylltzUVmL0o4qEBdj3EaEHij76LvmRcyVXbk4U0MjEN0RDx/du+6iUzZraBC7NA8x5bsixGPrrp/6CI8i3ybvG8rjEHvPY1aOFmEXBOL0t3MB4fOj8a3jC6SCDQ2wgZSPAnRkyXVnAcq8huS5xk6UGDL0u2p8MJ3aLyaiBWSjCvJwT9WVrDXLgu3eXj1Tb1LbENSTiqctCGFzLrJiJ3dNqGm6/VO5pma6zZoL9EZoPv6Ett3SSDgoVpoH/mt/P2J/QeWv5Ex4M41VTp9NRMAy/yRw48Wbh9ZVYzpx/yt2EfWpBnxz+m/8U+py8Z9mL/V4pqyH6v52X6JkgdziAm8gDmG4J2dNM+rrvzE/i/8if2F5NefZAK9sA==';
 };
 
-let validateTsec = (request) => {
+let getPrivateTsec = () => {
+    return 'eJxt1EePq2YAheG/cjVbNEPHIHlGohnTe91EdDA2H6bDr8+NlERZZP+ezVk8V28q819y8f2RUQRVpBjziTJV/klkNPZJMwj6SaQYQeIFWpGX/ONXUI5TC/rvD/QP5OPnyrdDU45COqc/78ziCN2LJHRBDtuOxEmPUjyprOTkugRT6OHUllW/MAxNY9wL7pS4eYVC0RahZ/ZYJwHPf+YeQs8MJbCt7AyvRRVJYwujYtnyOtGVZBgN6HbcxP4elr6CYxAya1tEZs7J+SSOHW8wkUPU0BJ9sratFGBywuFRsIMyHqeHYPeYDJsFy4eICobcvrPprFtU0jb311kJtBI5UWpdQgGDqPhmYEFIl7p7UAuD4U7g7nq0oKkCGuhhvGLydrAbCdR5I5O59hCdrv0nTBdBL5qPN9pFRuqPtxSkCS3fmGyXDmUhDBksUMimdTEcYA7eT6BMXj5vo9Tfd8RlFFNkvM3YfTxUTipncnoXARdW8lllHo4D3Hiu9qYekMg2NXQz9yeKOop1bzzmOfJRMADg5msT3Gc+nWEbASVhEwbTkA+8KftC8edZW6O8GsROXjfjIDfhzGvZuVs8p7wREgPBhd5qzRzBMW8O6IFOrPsjsFynpV+9LKw+acVGmGG2AZ9yFCdZ3XUlAuPTjQvM8J3Qo6qKlTSJrOW0vUAROg1aRQtIVpJZdieSm94bjltSs1N4fQZFZm9KyAJ3BnXJOBWk7uU+bcIGdw+FJ+DchWOoefHwzMPs5m6hh6man5vgIs0eaQlq/AgIBqchvpBxCqrB7b22thQUHvs6NSNFRzd1TITeXhYSaf7Sm3CcA2SnecwW/buJ9VXNeLRCMxFjwzjPN4odYo963WAcco2IT2xaI+VTEwNpT1WmkE/crpsRmwS3MO/ybqLIy5qMV3e4mXe2Fl2NyqRIN30NWo7r/IfEPc3J2EA3KYbQG+uyMVYhuf49lOWLOSlw5y7jQjLggZtLaFz6DPy+tdLyTVseu1Q/vTfhU1RoQuimDl1Ky4zLiXPuoLBFMjMx7Jua83fvVsWVyzTQc41YuoxEz1jt1IxCWVDIgUHILieewg4DlkvkXG/h0SgRk6sgslHXUs24vgURpluO8pjtCtfKUJgPwCRLIrnja3nkLBs3g8dq2Vrqd0uJHw72xo/uNFzLvTSXGBZaVVLqQrLnPM6lsOhvKUUyDRut3FsOVzWwENNsGSAdAcLGm2nHZVnWk7Idp4W3o25gQoFrs08QsYe7Lja/21v9/X2F/4PM3+Co5cE+23T6eU5Zts5fRfn1KvevvK3G9Gv+LdpX/kxz9J/pv/lV7PPxGObfgrHPGozt3Lx+BNEtixLmOR62VN4lrbQo2r6+wv8XX+G/wPz5E/1qvGQ=';
+};
+
+let validateTsec = (request, accessModify = "public") => {
     let tsecRequest = request.get('tsec');
-    if (tsecRequest === getTsec()) {
+    if ((accessModify === "public" && tsecRequest === getTsec()) || (accessModify === "private" && tsecRequest === getPrivateTsec())) {
         return true;
     } else {
         return false;
     }
+};
+
+let generateRandomNumber = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min);
+};
+
+let generateRandomABC = () => {
+    const abc = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    return abc[generateRandomNumber(0, abc.length)];
+};
+
+let generateAccount = () => {
+    let bean = "";
+    for (let i = 1; i <= 5; i++) {
+        let randomNumber = generateRandomNumber(0, 9);
+        bean += randomNumber.toString();
+    }
+    let account = {
+        accountNumber: `***********${bean}`,
+        accountType: {
+            catalogItemBase: {
+                name: "CUENTA DE CHEQUE"
+            }
+        }
+    };
+    return account;
+};
+
+let generateNumberPolicy = () => {
+    let numberPolicy = "";
+    return numberPolicy;
+};
+
+let generatePolicy = () => {
+    let policy = {
+        "account": generateAccount(),
+        "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+        "coverage": {
+            "coverageType": {
+                "catalogItemBase": {
+                    "name": "LIMITADA"
+                }
+            },
+            "serviceTypes": []
+        },
+        "isFleet": "0",
+        "owner": {
+            "contactData": {
+                "email": "CHIMASAPARRAL@GMAIL.COM"
+            },
+            "person": {
+                "name": "CHIHUAHUA MADERERA, SA DE CV"
+            },
+            "isInternal": "0",
+            "isVIP": "0"
+        },
+        "contractor": {
+            "contactData": {},
+            "person": {
+                "name": "CHIHUAHUA MADERERA, SA DE CV"
+            }
+        },
+        "certificate": "2",
+        "numberPolicy": "716B01009L",
+        "vehicle": {
+            "vehicle": {
+                "brandCar": {
+                    "catalogItemBase": {
+                        "id": "161",
+                        "name": "TOYOTA"
+                    }
+                },
+                "subBrand": {
+                    "catalogItemBase": {
+                        "id": "3",
+                        "name": "CAMRY"
+                    }
+                },
+                "carModel": {
+                    "catalogItemBase": {
+                        "name": "2007"
+                    }
+                },
+                "plates": "SLB6270",
+                "serialNumber": "4T1BE46K77U658603",
+                "engineNumber": "2AZ8764935",
+                "versionCar": {
+                    "catalogItemBase": {
+                        "id": "1",
+                        "name": " AUT AA EE CD BA 4CIL 4PT"
+                    }
+                }
+            }
+        },
+        "idPolicy": "8516351",
+        "status": "ACT",
+        "validityPeriod": {
+            "startDate": "2018-01-04T00:00:00.000-0600",
+            "endDate": "2017-01-04T00:00:00.000-0600"
+        }
+    };
+    return policy;
 };
 
 const noTsecResponse = {
@@ -63,8 +173,15 @@ exports.gtZonaPrivada = (request, response) => {
         }
     };
 
-    response = prepareResponse(response);
-    response.write(JSON.stringify(res));
+    if (request.body.authenticationData[0].authenticationData[0] === "147258") {
+        let headers = new Map();
+        headers.set('tsec', getPrivateTsec());
+        response = prepareResponse(response, headers);
+    } else {
+        response.statusCode = 500;
+        response.write(JSON.stringify(noTsecResponse));
+    }
+
     response.end();
 };
 
@@ -1426,13 +1543,20 @@ exports.updateInfo = (request, response) => {
 * */
 
 exports.mbfsta00 = (request, response) => {
-    const res = {
-        "activationlist": [{
+    let policies = request.body.listInsurance;
+    let activationList = [];
+
+    for (const policy of policies) {
+        activationList.push({
             "activationcode": "1VRNS17WK",
             "activationid": "5a4577020cf2b2327adac263",
-            "insurancenumber": "855621000Y",
-            "certificate": "9843"
-        }]
+            "insurancenumber": policy.insurancenumber,
+            "certificate": policy.certificate
+        });
+    }
+
+    const res = {
+        "activationlist": activationList
     };
 
     response = prepareResponse(response);
