@@ -2160,7 +2160,7 @@ exports.financialDashboards = (request, response) => {
     };
 
     response = prepareResponse(response);
-    
+
     response.write(JSON.stringify(res));
 
     response.end();
