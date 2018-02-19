@@ -1034,6 +1034,82 @@ exports.listCarInsurancePolicies = (request, response) => {
                     "startDate": "2018-03-17T00:00:00.000-0600",
                     "endDate": "2017-03-17T00:00:00.000-0600"
                 }
+            },
+            {
+                "account": {
+                    "accountNumber": "***************33661",
+                    "accountType": {
+                        "catalogItemBase": {
+                            "name": "CUENTA DE CHEQUE"
+                        }
+                    }
+                },
+                "subsidary": "SEGUROS BANCOMER, S.A DE C.V",
+                "coverage": {
+                    "coverageType": {
+                        "catalogItemBase": {
+                            "name": "AMPLIA"
+                        }
+                    },
+                    "serviceTypes": []
+                },
+                "isFleet": "0",
+                "owner": {
+                    "contactData": {},
+                    "person": {
+                        "name": "AGAPITA",
+                        "lastName": "BELMAR",
+                        "mothersLastName": "BELMAR"
+                    },
+                    "isInternal": "0",
+                    "isVIP": "0"
+                },
+                "contractor": {
+                    "contactData": {},
+                    "person": {
+                        "name": "AGAPITA",
+                        "lastName": "BELMAR",
+                        "mothersLastName": "BELMAR"
+                    }
+                },
+                "certificate": "1",
+                "numberPolicy": "8876001L4F",
+                "vehicle": {
+                    "vehicle": {
+                        "brandCar": {
+                            "catalogItemBase": {
+                                "id": "14",
+                                "name": "FORD"
+                            }
+                        },
+                        "subBrand": {
+                            "catalogItemBase": {
+                                "id": "12",
+                                "name": "EDGE"
+                            }
+                        },
+                        "carModel": {
+                            "catalogItemBase": {
+                                "name": "2017"
+                            }
+                        },
+                        "plates": "ASD159",
+                        "serialNumber": "258963",
+                        "engineNumber": "258963",
+                        "versionCar": {
+                            "catalogItemBase": {
+                                "id": "13",
+                                "name": "C AUT SUV 6 CIL 5P 5 OCUP"
+                            }
+                        }
+                    }
+                },
+                "idPolicy": "12668070",
+                "status": "ANU",
+                "validityPeriod": {
+                    "startDate": "2018-08-08T00:00:00.000-0500",
+                    "endDate": "2017-08-08T00:00:00.000-0500"
+                }
             }
         ]
     };
