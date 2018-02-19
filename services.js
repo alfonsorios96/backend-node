@@ -1042,25 +1042,20 @@ exports.listCarInsurancePolicies = (request, response) => {
     response = prepareResponse(response);
 
 
-    if (validateTsec(request)) {
-        if (payload.hasOwnProperty('listAccount') && payload.listAccount.length > 0) {
-            response.write(JSON.stringify(resAccounts));
-        } else if (payload.customer.contactData.cellphone.telephoneNumber.length > 0) {
-            response.write(JSON.stringify(resCellphone));
-        } else if (payload.listCarInsurancePolicy[0].numberPolicy === POLICY_FLEET) {
-            if (payload.listCarInsurancePolicy[0].certificate === "2") {
-                response.write(JSON.stringify(resFormFleet));
-            } else {
-                response.write(JSON.stringify(errorWithoutCertificate));
-            }
-        } else if (payload.listCarInsurancePolicy[0].numberPolicy === POLICY_NOT_FLEET) {
-            response.write(JSON.stringify(resFormNonFleet));
+    if (payload.hasOwnProperty('listAccount') && payload.listAccount.length > 0) {
+        response.write(JSON.stringify(resAccounts));
+    } else if (payload.customer.contactData.cellphone.telephoneNumber.length > 0) {
+        response.write(JSON.stringify(resCellphone));
+    } else if (payload.listCarInsurancePolicy[0].numberPolicy === POLICY_FLEET) {
+        if (payload.listCarInsurancePolicy[0].certificate === "2") {
+            response.write(JSON.stringify(resFormFleet));
         } else {
-            // TODO
+            response.write(JSON.stringify(errorWithoutCertificate));
         }
+    } else if (payload.listCarInsurancePolicy[0].numberPolicy === POLICY_NOT_FLEET) {
+        response.write(JSON.stringify(resFormNonFleet));
     } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
+        // TODO
     }
     response.end();
 };
@@ -1481,12 +1476,7 @@ exports.listCoverages = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
-        response.write(JSON.stringify(res));
-    } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
-    }
+    response.write(JSON.stringify(res));
 
     response.end();
 };
@@ -1528,12 +1518,7 @@ exports.updateInfo = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
-        response.write(JSON.stringify(res));
-    } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
-    }
+    response.write(JSON.stringify(res));
 
     response.end();
 };
@@ -1561,12 +1546,7 @@ exports.mbfsta00 = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
-        response.write(JSON.stringify(res));
-    } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
-    }
+    response.write(JSON.stringify(res));
 
     response.end();
 };
@@ -1584,12 +1564,7 @@ exports.mbfsta01 = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
-        response.write(JSON.stringify(res));
-    } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
-    }
+    response.write(JSON.stringify(res));
 
     response.end();
 };
@@ -1605,12 +1580,7 @@ exports.mbfsta02 = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
-        response.write(JSON.stringify(res));
-    } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
-    }
+    response.write(JSON.stringify(res));
 
     response.end();
 };
@@ -1663,12 +1633,7 @@ exports.mbfsta03 = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
-        response.write(JSON.stringify(res));
-    } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
-    }
+    response.write(JSON.stringify(res));
 
     response.end();
 };
@@ -1733,12 +1698,7 @@ exports.mbfsta04 = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
-        response.write(JSON.stringify(res));
-    } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
-    }
+    response.write(JSON.stringify(res));
 
     response.end();
 };
@@ -1756,12 +1716,7 @@ exports.requestEventAttention = (request, response) => {
 
     response = prepareResponse(response);
 
-    if (validateTsec(request)) {
-        response.write(JSON.stringify(res));
-    } else {
-        response.statusCode = 500;
-        response.write(JSON.stringify(noTsecResponse));
-    }
+    response.write(JSON.stringify(res));
 
     response.end();
 };
