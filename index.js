@@ -30,7 +30,7 @@ app.post('/SRVS_A02/carInsurancePolicies/V01/listCoverages', services.listCovera
 app.post('/SRVS_A02/carInsurancePolicies/V01/listCarInsurancePolicies', services.listCarInsurancePolicies);
 app.post('/SRVS_A02/carInsurancePolicies/V01/requestEventAttention', services.requestEventAttention);
 app.post('/SRVS_A02/carInsurancePolicies/V01/updateInfo', services.updateInfo);
-app.get('/SRVS_A02/financialDashboards/V02', services.financialDashboards);
+app.get('//SRVS_A02/financialDashboards/V02', services.financialDashboards);
 
 app
 .listen(PORT, () => console.log(`Listening on ${ PORT }`));
